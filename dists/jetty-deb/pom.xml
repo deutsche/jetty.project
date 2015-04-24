@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.eclipse.jetty.dist</groupId>
     <artifactId>dist-parent</artifactId>
-    <version>9.0.0-SNAPSHOT</version>
+    <version>9.2.10.v20150310</version>
   </parent>
   <artifactId>jetty-deb</artifactId>
   <name>Jetty :: Unix Distributions :: Debian</name>
@@ -28,6 +28,8 @@
             <useFakeroot>false</useFakeroot>
             <priority>optional</priority>
             <section>java</section>
+            <depends>oracle-java8-installer, adduser, jsvc, apache2-utils  </depends>
+            <Replaces>libjetty-java, jetty </Replaces>
           </deb>
            <packages>
             <package>
@@ -35,40 +37,44 @@
               <assembly>
                 <extractArtifact>
                   <artifact>org.eclipse.jetty:jetty-distribution:zip</artifact>
-                  <to>/usr/share/jetty9</to>
+                  <to>/usr/share/jetty/</to>
                   <pattern>/jetty-distribution-${project.version}(.*)</pattern>
                   <replacement>$1</replacement>
                   <excludes>
                     <exclude>jetty-distribution-*/javadoc</exclude>
                     <exclude>jetty-distribution-*/javadoc/**</exclude>
                     <exclude>jetty-distribution-*/logs/**</exclude>
-                    <exclude>jetty-distribution-*/bin/**</exclude>
+                    <!--exclude>jetty-distribution-*/bin/**</exclude-->
                     <exclude>jetty-distribution-*/etc/**</exclude>
-                    <exclude>jetty-distribution-*/webapps/**</exclude>                  
+                    <exclude>jetty-distribution-*/etc</exclude>
+                    <exclude>jetty-distribution-*/webapps/**</exclude>
+                    <exclude>jetty-distribution-*/demo-base/**</exclude>
                     <exclude>jetty-distribution-*/*.html</exclude>
-                    <exclude>jetty-distribution-*/*.txt</exclude>             
+                    <exclude>jetty-distribution-*/*.txt</exclude>
                   </excludes>
                  </extractArtifact>
                  <extractArtifact>
                   <artifact>org.eclipse.jetty:jetty-distribution:zip</artifact>
-                  <to>/usr/share/doc/jetty9</to>
+                  <to>/usr/share/doc/jetty/</to>
                   <pattern>/jetty-distribution-${project.version}(.*)</pattern>
                   <replacement>$1</replacement>
-                  <excludes>
+                  <includes>
                     <include>jetty-distribution-*/*.html</include>
-                    <include>jetty-distribution-*/*.txt</include> 
-                    <exclude>jetty-distribution-*/**</exclude>           
-                  </excludes>
+                    <include>jetty-distribution-*/*.txt</include>
+                    <include>jetty-distribution-*/*.TXT</include>
+                    <include>jetty-distribution-*/resources/*</include>
+                    <!--exclude>jetty-distribution-*/**</exclude-->
+                  </includes>
                  </extractArtifact>
                  <extractArtifact>
                   <artifact>org.eclipse.jetty:jetty-distribution:zip</artifact>
-                  <to>/etc/jetty9</to>
-                  <pattern>/jetty-distribution-${project.version}(.*)</pattern>
+                  <to>/etc/jetty/</to>
+                  <pattern>/jetty-distribution-${project.version}/etc/(.*)</pattern>
                   <replacement>$1</replacement>
-                  <excludes>
+                  <includes>
                     <include>jetty-distribution-*/etc/**</include>
-                    <!-- exclude>jetty-distribution-*/**</exclude-->           
-                  </excludes>
+                    <!-- exclude>jetty-distribution-*/**</exclude-->
+                  </includes>
                  </extractArtifact>
               </assembly>
             </package>
